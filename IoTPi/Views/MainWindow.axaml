@@ -1,0 +1,57 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:IoTPi.ViewModels;assembly=IoTPi"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cmp="clr-namespace:IoTPi.Components;assembly=IoTPi"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="IoTPi.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        
+        Title="IoTPi" Background="{DynamicResource LCDPanelBrush}">
+
+  
+  
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+  <Grid>
+  <Grid Margin="12" >
+
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="1*"/>
+      <ColumnDefinition Width="320"/>
+    </Grid.ColumnDefinitions>
+
+    <Grid >
+      <Grid.RowDefinitions>
+        <RowDefinition Height="128"/>
+        <RowDefinition Height="128"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="256"/>
+        <ColumnDefinition Width="256"/>
+      </Grid.ColumnDefinitions>
+
+      <cmp:DataBox   Label="Temperature Area 0" Data="{Binding Processed.TemperatureArea0}"/>
+    </Grid>
+
+    <Grid Grid.Column="1">
+      <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
+        <Button Content="C" Height="32" Width="32" Command="{Binding Configuration.ShowConfig}"/>
+      </StackPanel>
+    </Grid>
+
+  
+
+  </Grid>
+
+    <Border IsVisible="{Binding Configuration.IsVisible}" Background="#40000000" Grid.ColumnSpan="12" Grid.RowSpan="12">
+      <cmp:ConfigurationBox />
+    </Border>
+
+  </Grid>
+ 
+
+</Window>

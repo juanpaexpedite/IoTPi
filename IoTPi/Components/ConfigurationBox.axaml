@@ -1,0 +1,29 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:vm="clr-namespace:IoTPi.ViewModels;assembly=IoTPi"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="IoTPi.Components.ConfigurationBox" x:Name="Instance">
+
+  <Design.DataContext>
+    <vm:MainWindowViewModel/>
+  </Design.DataContext>
+  
+  <Border BorderBrush="Black" BorderThickness="4" Margin="12" Width="320" Height="320">
+    <Grid Margin="4">
+
+      <Button Command="{Binding Configuration.CloseConfig}" Grid.Row="1" Content="X" HorizontalAlignment="Right" VerticalAlignment="Top" Width="32" Height="32"/>
+      <Grid Margin="12,48,48,32" >
+      
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+
+      <TextBlock Text="Database Management"/>
+      <Button Grid.Row="1" Content="Create" Command="{Binding Database.CreateDatabase}"/>
+      </Grid>
+    </Grid>
+  </Border>
+</UserControl>

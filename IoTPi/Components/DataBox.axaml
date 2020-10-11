@@ -1,0 +1,21 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="IoTPi.Components.DataBox" x:Name="Instance">
+  
+  
+  
+  <Border BorderBrush="DarkGray" BorderThickness="4" Margin="0,0,12,12">
+    <Grid Margin="4">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+
+      <TextBlock HorizontalAlignment="Center" Text="{Binding ElementName=Instance, Path=Label}"  FontSize="24"/>
+      <TextBlock HorizontalAlignment="Right" Text="{Binding ElementName=Instance, Path=Data}"  Grid.Row="1"/>
+    </Grid>
+  </Border>
+</UserControl>
