@@ -34,8 +34,6 @@ namespace IoTPi.Managers
 
                     if (addsampledata)
                     {
-                        db.Temperature.Count();
-                        db.Pressure.Count();
 
                         db.Add(new Models.TemperatureSensorDescriptor(new string[] { "0","Temperature","Area0","20.0","C" }));
                         db.Add(new Models.PressureSensorDescriptor(new string[] { "0", "Pressure", "Area0", "1200.0", "Mb" }));
