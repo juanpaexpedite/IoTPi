@@ -1,14 +1,17 @@
 ﻿using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Threading;
+using IoTPi.Models;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using ReactiveUI;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -31,7 +34,26 @@ namespace IoTPi.Components
             InitializePlot();
         }
 
-        
+        SensorDescriptor sensorinstance;
+
+        protected override void OnDataContextChanged(EventArgs e)
+        {
+            if(this.DataContext is SensorDescriptor sensor)
+            {
+                sensorinstance = sensor;
+                sensorinstance.PropertyChanged += Sensorinstance_PropertyChanged;
+            }
+            base.OnDataContextChanged(e);
+        }
+
+        private void Sensorinstance_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == "Value")
+            {
+                Update(sensorinstance.Value, sensorinstance.Units);
+            }
+        }
+
         OxyPlot.Avalonia.PlotView plotview;
         TextBlock CurrentValueLabel;
         private void FindControls()
@@ -109,25 +131,23 @@ namespace IoTPi.Components
 
         #endregion
 
-        int hour = 0;
         public void Update(double value, string unit)
         {
             if (series.Points.Count > 10)
             {
-
                 series.Points.RemoveAt(0);
             }
-            series.Points.Add(new DataPoint(hour, value));
 
-            CurrentValueLabel.Text = $"{value.ToString("00.00", CultureInfo.InvariantCulture)} {unit}";
+            var date = DateTimeAxis.ToDouble(sensorinstance.TimeStamp);
 
-            plotview.Model.InvalidatePlot(true);
+            series.Points.Add(new DataPoint(date, value));
 
-            hour++;
-            if (hour > 24)
+            Dispatcher.UIThread.InvokeAsync(() =>
             {
-                hour = 0;
-            }
+                CurrentValueLabel.Text = $"{value.ToString("00.00", CultureInfo.InvariantCulture)} {unit}";
+
+                plotview.Model.InvalidatePlot(true);
+            });
         }
     }
 }

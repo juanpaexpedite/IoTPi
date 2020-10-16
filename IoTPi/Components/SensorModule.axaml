@@ -19,9 +19,7 @@
 
       <TextBlock Margin="8,0,0,0" Text="{Binding SensorName}" FontSize="{DynamicResource FontSizeNormal}" Grid.Row="1"/>
 
-
-
-      <oxy:PlotView  x:Name="Plot" Margin="0,8,0,0" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Grid.Row="2"/>
+      <oxy:PlotView   x:Name="Plot" Margin="0,8,0,0" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Grid.Row="2"/>
 
       <TextBlock HorizontalAlignment="Right" x:Name="CurrentValueLabel" Text="{Binding ValueLabel}" FontSize="32" Grid.RowSpan="3"/>
     </Grid>

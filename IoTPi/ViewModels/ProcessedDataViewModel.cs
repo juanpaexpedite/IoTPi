@@ -40,6 +40,8 @@ namespace IoTPi.ViewModels
 
             area.CheckSensor(sensor);
 
+            //Update SensorModule
+
         }
 
         internal void ReceiveDataSerialPort()

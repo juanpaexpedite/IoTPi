@@ -46,7 +46,7 @@ namespace IoTPi.Components
 
 
         public static readonly StyledProperty<string> AreaNameProperty =
-        AvaloniaProperty.Register<SensorModule, string>(nameof(AreaName));
+        AvaloniaProperty.Register<AreasView, string>(nameof(AreaName));
 
         public string AreaName
         {
