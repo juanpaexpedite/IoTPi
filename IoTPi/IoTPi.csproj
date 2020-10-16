@@ -7,10 +7,19 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Views\SideBar.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Views\SideBar.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </AvaloniaResource>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.12" />
     <PackageReference Include="Avalonia.Desktop" Version="0.9.12" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.9" />
+    <PackageReference Include="OxyPlot.Avalonia" Version="2.1.0-20200605.6" />
     <PackageReference Include="System.IO.Ports" Version="4.7.0" />
   </ItemGroup>
 </Project>

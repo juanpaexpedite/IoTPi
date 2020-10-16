@@ -13,53 +13,43 @@ namespace IoTPi.ViewModels
 {
     public class SensorsViewModel : ViewModelBase
     {
+        public static SensorsViewModel Instance;
+        SerialPortManager serialportmanager;
+
         #region Visual 
-        private string capturedatalabel;
-        public string CaptureDataLabel
+        private string headerlabel;
+        public string HeaderLabel
         {
-            get => capturedatalabel;
-            set => this.RaiseAndSetIfChanged(ref capturedatalabel, value);
+            get => headerlabel;
+            set => this.RaiseAndSetIfChanged(ref headerlabel, value);
         }
         #endregion
 
 
         public SensorsViewModel()
         {
+            Instance = this;
+            serialportmanager = new SerialPortManager();
+
             Initialize();
         }
 
         private void Initialize()
         {
-            cp2102 = new CP2102Manager();
             ExecuteRefreshPorts();
         }
 
         #region CP2102
-        CP2102Manager cp2102 = null;
-
-        private ReactiveCommand<Unit, Unit> startreading;
-        public ReactiveCommand<Unit,Unit> StartReading => startreading ??= ReactiveCommand.Create(ExecuteStartReading);
-
-        void ExecuteStartReading()
-        {
-            if (currentcomport != null)
-            {
-                //cp2102.Start(currentcomport.Name, ReadData);
-                CaptureDataLabel = "READING...";
-            }
-            else
-            {
-                CaptureDataLabel = "CHOOSE COM";
-            }
-        }
+        
 
         private ReactiveCommand<Unit, Unit> stopreading;
         public ReactiveCommand<Unit, Unit> StopReading => stopreading ??= ReactiveCommand.Create(ExecuteStopReading);
 
         void ExecuteStopReading()
         {
-            cp2102.Stop();
-           // CaptureDataLabel = "CAPTURE DATA";
+            serialportmanager.Stop();
+
+            HeaderLabel = "STOPPED";
         }
         #endregion
 
@@ -71,6 +61,15 @@ namespace IoTPi.ViewModels
             set => this.RaiseAndSetIfChanged(ref currentcomport, value);
         }
 
+        public bool CanRead()
+        {
+            return CurrentComPort != null;
+        }
+
+        public void Read()
+        {
+            serialportmanager.Read(CurrentComPort.Name, TransferData);
+        }
 
         private bool autorearm;
 
@@ -92,7 +91,7 @@ namespace IoTPi.ViewModels
             ComPorts.Clear();
             await Task.Delay(1000);
 
-            foreach (var port in SerialPortManager.GetPortsInformation())
+            foreach (var port in serialportmanager.GetPortsInformation())
             {
                 ComPorts.Add(new SerialPortDescriptor(port));
             }
@@ -106,18 +105,12 @@ namespace IoTPi.ViewModels
             get => rawdata;
             set => this.RaiseAndSetIfChanged(ref rawdata, value);
         }
+      
 
-        private void ReadData(bool sensoractive, string data)
+        private void TransferData(string header, byte[] package)
         {
-            if (sensoractive)
-            {
-                RawData = data;
-                ProcessedDataViewModel.Instance.ReceiveData(data);
-            }
-            else
-            {
-                CaptureDataLabel = data;
-            }
+            ProcessedDataViewModel.Instance.ReceiveData(header, package);
+            HeaderLabel = header;
         }
         #endregion
     }

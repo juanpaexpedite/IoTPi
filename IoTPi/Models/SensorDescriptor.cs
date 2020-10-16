@@ -5,8 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 using System.Text;
 
+
 namespace IoTPi.Models
 {
+   
     public class SensorDescriptor : ReactiveObject, IDataDescriptor
     {
         /// <summary>
@@ -18,7 +20,7 @@ namespace IoTPi.Models
         }
 
         /// <summary>
-        /// //Data in this case has  3 parts: Id, Measure, Area, Value, Units
+        /// //Data in this case has  6 parts: Id, Measure,Name, Area, Value, Units
         /// </summary>
         /// <param name="id"></param>
         /// <param name="data"></param>
@@ -28,17 +30,28 @@ namespace IoTPi.Models
         }
 
         private int id;
+
         public int Id
         {
             get => id;
             set => this.RaiseAndSetIfChanged(ref id, value);
         }
 
-        private int entryid;
-        public int EntryId
+        private int sensorid;
+        public int SensorId
         {
-            get => entryid;
-            set => this.RaiseAndSetIfChanged(ref entryid, value);
+            get => sensorid;
+            set => this.RaiseAndSetIfChanged(ref sensorid, value);
+        }
+
+      
+
+        private string sensorname;
+        [NotMapped]
+        public string SensorName
+        {
+            get => sensorname;
+            set => this.RaiseAndSetIfChanged(ref sensorname, value);
         }
 
         private string measurement;
@@ -56,11 +69,19 @@ namespace IoTPi.Models
             set => this.RaiseAndSetIfChanged(ref dvalue, value);
         }
 
-        private string area;
-        public string Area
+        private int areaid;
+        public int AreaId
         {
-            get => area;
-            set => this.RaiseAndSetIfChanged(ref area, value);
+            get => areaid;
+            set => this.RaiseAndSetIfChanged(ref areaid, value);
+        }
+
+        private string areaname;
+        [NotMapped]
+        public string AreaName
+        {
+            get => areaname;
+            set => this.RaiseAndSetIfChanged(ref areaname, value);
         }
 
         private string units;
@@ -84,27 +105,45 @@ namespace IoTPi.Models
             set => this.RaiseAndSetIfChanged(ref timestamp, value);
         }
 
+        private string valuelabel = "#";
+
+        [NotMapped]
+        public string ValueLabel
+        {
+            get => valuelabel;
+            set => this.RaiseAndSetIfChanged(ref valuelabel, value);
+        }
+
         /// <summary>
-        /// //Data in this case has  3 parts: Id, Measure, Area, Value, Units
+        /// //Data has 7 parts: Measure,AreaId,SensorId,AreaName,SensorName,Value,Units
         /// </summary>
         /// <param name="raw"></param>
         /// <param name="rawpackage"></param>
         public void SetData(string[] raw, byte[] rawpackage = null)
         {
-            //Data in this case has  3 parts: Id, Measure, Area, Value, Units
-            if (raw.Length == 5)
+            
+            if (raw.Length == 7)
             {
-                if (int.TryParse(raw[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out int idresult))
+                Measurement = raw[0];
+
+                if (int.TryParse(raw[1], NumberStyles.Integer, CultureInfo.InvariantCulture, out int areaidresult))
                 {
-                    EntryId = idresult;
+                    AreaId = areaidresult;
                 }
-                Measurement = raw[1];
-                Area = raw[2];
-                if (double.TryParse(raw[3], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out double result))
+
+                if (int.TryParse(raw[2], NumberStyles.Integer, CultureInfo.InvariantCulture, out int idresult))
+                {
+                    SensorId = idresult;
+                }
+
+                AreaName = raw[3];
+                SensorName = raw[4];
+
+                if (double.TryParse(raw[5], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out double result))
                 {
                     Value = result;
                 }
-                Units = raw[4];
+                Units = raw[6];
 
                 if(rawpackage!=null)
                 {
@@ -112,7 +151,18 @@ namespace IoTPi.Models
                 }
 
                 TimeStamp = DateTime.Now;
+
+                ValueLabel = $"{dvalue.ToString("00.00", CultureInfo.InvariantCulture)} {units}";
             }
+        }
+
+        /// <summary>
+        /// This method is overrided when data comes from a third party source
+        /// </summary>
+        /// <param name="package"></param>
+        public virtual void SetPackage(byte[] package)
+        {
+
         }
     }
 }

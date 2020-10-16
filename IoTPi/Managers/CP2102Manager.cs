@@ -9,10 +9,12 @@ namespace IoTPi.Managers
     {
         private SerialPort port;
 
-        Action<bool, string> callbackaction;
-        public void Start(string comport, Action<bool, string> callback)
+        Action<bool, string> callbackstringaction;
+        Action<byte[]> callbackbyteaction;
+        public void Start(string comport, Action<bool, string> callbackstring, Action<byte[]> callbackbyte)
         {
-            callbackaction = callback;
+            callbackstringaction = callbackstring;
+            callbackbyteaction = callbackbyte;
 
             if (port != null && port.IsOpen)
             {
@@ -44,22 +46,29 @@ namespace IoTPi.Managers
 
         private void Port_PinChanged(object sender, SerialPinChangedEventArgs e)
         {
-            callbackaction?.Invoke(false, "pinchanged");
+            callbackstringaction?.Invoke(false, "pinchanged");
         }
 
         private void Port_Disposed(object sender, EventArgs e)
         {
-            callbackaction?.Invoke(false, "disposed");
+            callbackstringaction?.Invoke(false, "disposed");
         }
 
         private void Port_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
         {
-            callbackaction?.Invoke(false, "error");
+            callbackstringaction?.Invoke(false, "error");
         }
 
         private void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            callbackaction?.Invoke(true, port.ReadLine());
+            int count = port.BytesToRead;
+            byte[] data = new byte[count];
+            port.Read(data, 0, data.Length);
+
+            var stringdata = System.Text.Encoding.Default.GetString(data);
+
+            callbackbyteaction?.Invoke(data);
+            callbackstringaction?.Invoke(true, stringdata);
         }
 
         public void Stop()

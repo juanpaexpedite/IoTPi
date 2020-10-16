@@ -8,8 +8,8 @@
         x:Class="IoTPi.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         
-        Title="IoTPi" Background="{DynamicResource LCDPanelBrush}">
-
+        Title="IoTPi"  Background="{DynamicResource ThemeAccentBrush3}">
+<!--Background="{DynamicResource LCDPanelBrush}"-->
   
   
     <Design.DataContext>
@@ -17,14 +17,21 @@
     </Design.DataContext>
 
   <Grid>
-  <Grid Margin="12" >
+    <Grid.Styles>
+      <Style Selector="TextBlock.h2">
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="MaxWidth" Value="400"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+      </Style>
+    </Grid.Styles>
+    <Grid >
 
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="1*"/>
       <ColumnDefinition Width="320"/>
     </Grid.ColumnDefinitions>
 
-    <Grid >
+    <!--<Grid >
       <Grid.RowDefinitions>
         <RowDefinition Height="128"/>
         <RowDefinition Height="128"/>
@@ -35,7 +42,7 @@
       </Grid.ColumnDefinitions>
 
       <cmp:DataBox   Label="Temperature Area 0" Data="{Binding Processed.TemperatureArea0}"/>
-    </Grid>
+    </Grid>-->
 
     <Grid Grid.Column="1">
       <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
@@ -43,7 +50,26 @@
       </StackPanel>
     </Grid>
 
-  
+
+    <TabControl Classes="sidebar" Name="Sidebar" Background="{DynamicResource ThemeAccentBrush}">
+
+      <TabControl.Styles>
+        <Style Selector="ContentPresenter">
+          <Setter Property="CornerRadius" Value="8"/>
+        </Style>
+      </TabControl.Styles>
+      
+
+      <TabItem Header="Home">
+        <cmp:AreasView/>
+      </TabItem>
+      <TabItem Header="Sensors">
+        
+      </TabItem>
+      <TabItem Header="Actuators">
+        
+      </TabItem>
+    </TabControl>
 
   </Grid>
 

@@ -14,16 +14,27 @@
     <Grid Margin="4">
 
       <Button Command="{Binding Configuration.CloseConfig}" Grid.Row="1" Content="X" HorizontalAlignment="Right" VerticalAlignment="Top" Width="32" Height="32"/>
-      <Grid Margin="12,48,48,32" >
+      <StackPanel Margin="12,48,48,32" >
       
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-      </Grid.RowDefinitions>
-
+      
       <TextBlock Text="Database Management"/>
       <Button Grid.Row="1" Content="Create" Command="{Binding Database.CreateDatabase}"/>
-      </Grid>
+
+      <TextBlock Text="Serial Port" Margin="0,12,0,0"/>
+        <Button Grid.Row="1" Content="Refresh" Command="{Binding Sensors.RefreshPorts}"/>
+
+        <ComboBox Items="{Binding Sensors.ComPorts}"  SelectedItem="{Binding Sensors.CurrentComPort, Mode=TwoWay}" Margin="0,12,0,0">
+          <ComboBox.ItemTemplate>
+            <DataTemplate>
+              <Grid>
+                <TextBlock Text="{Binding Name}"/>
+              </Grid>
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+        
+        
+      </StackPanel>
     </Grid>
   </Border>
 </UserControl>

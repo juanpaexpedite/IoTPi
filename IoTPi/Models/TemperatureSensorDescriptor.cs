@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -40,11 +41,5 @@ namespace IoTPi.Models
         public HumiditySensorDescriptor(string[] data) : base(data) { }
     }
 
-    [Table("Battery")]
-    public class BatterySensorDescriptor : SensorDescriptor
-    {
-        public BatterySensorDescriptor() { }
-
-        public BatterySensorDescriptor(string[] data) : base(data) { }
-    }
+    
 }

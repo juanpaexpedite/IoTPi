@@ -59,8 +59,10 @@ namespace IoTPi.ViewModels
             DatabaseViewModel.Instance.SetInsertInterval(saveinterval);
         }
 
-      
+
         #endregion
 
+
+        
     }
 }

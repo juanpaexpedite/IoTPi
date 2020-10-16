@@ -1,4 +1,5 @@
-﻿using IoTPi.Managers;
+﻿using Avalonia.Threading;
+using IoTPi.Managers;
 using IoTPi.Models;
 using ReactiveUI;
 using System;
@@ -20,23 +21,32 @@ namespace IoTPi.ViewModels
         }
 
         /// <summary>
-        /// Id, Sensor, Area, Value, Units
-        /// Example 4, Temperature, Area0, 20.0, C
+        /// Data has 7 parts: Measure,AreaId,Id,AreaName,SensorName,Value,Units
         /// </summary>
         /// <param name="rawdata"></param>
 
-        public void ReceiveData(string rawdata)
+        public void ReceiveData(string rawdata, byte[] package = null)
         {
-            if(DatabaseViewModel.Instance.SavingData)
+            if (DatabaseViewModel.Instance.SavingData)
             {
                 return;
             }
 
-            var data = rawdata.Split(' ');
+            var data = rawdata.Split(';');
 
-            if (data.Length == 5)
+            var sensor = ProcessedDataManager.SetData(SensorsCollection, data, package);
+
+            var area = AreasViewModel.Instance.CheckArea(sensor.AreaId, sensor.AreaName);
+
+            area.CheckSensor(sensor);
+
+        }
+
+        internal void ReceiveDataSerialPort()
+        {
+            if(SensorsViewModel.Instance.CanRead())
             {
-                ProcessedDataManager.SetData(SensorsCollection, data);
+                SensorsViewModel.Instance.Read();
             }
         }
     }

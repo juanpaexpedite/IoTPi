@@ -20,7 +20,7 @@ namespace IoTPi.Managers
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"Error in DataService.InserData {ex.Message}");
+                    Debug.WriteLine($"Error in DataService.InsertData {ex.Message}");
                 }
             }
         }

@@ -1,0 +1,29 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:oxy="clr-namespace:OxyPlot.Avalonia;assembly=OxyPlot.Avalonia" 
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="IoTPi.Components.SensorModule">
+
+  <Border Background="White" Width="320" Height="320" CornerRadius="12">
+    <Grid Margin="12">
+
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="1*"/>
+      </Grid.RowDefinitions>
+
+      <TextBlock Margin="8,0,0,0" Text="{Binding Measurement}" FontWeight="Bold" FontSize="{DynamicResource FontSizeLarge}"/>
+
+      <TextBlock Margin="8,0,0,0" Text="{Binding SensorName}" FontSize="{DynamicResource FontSizeNormal}" Grid.Row="1"/>
+
+
+
+      <oxy:PlotView  x:Name="Plot" Margin="0,8,0,0" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Grid.Row="2"/>
+
+      <TextBlock HorizontalAlignment="Right" x:Name="CurrentValueLabel" Text="{Binding ValueLabel}" FontSize="32" Grid.RowSpan="3"/>
+    </Grid>
+  </Border>
+</UserControl>

@@ -1,0 +1,27 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:cmp="clr-namespace:IoTPi.Components;assembly=IoTPi"
+             x:Class="IoTPi.Components.AreasView">
+
+  <TabControl Classes="sidebar" Name="AreasSideBar" 
+              Items="{Binding Areas.Collection}"
+              Background="{DynamicResource ThemeAccentBrush2}" >
+
+    <TabControl.ItemTemplate>
+      <DataTemplate>
+        <TextBlock Text="{Binding Name}"/>
+      </DataTemplate>
+    </TabControl.ItemTemplate>
+
+    <TabControl.ContentTemplate>
+      <DataTemplate>
+        <cmp:SensorsView />
+      </DataTemplate>
+    </TabControl.ContentTemplate>
+      
+  </TabControl>
+</UserControl>
+

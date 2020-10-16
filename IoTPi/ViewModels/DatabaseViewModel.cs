@@ -52,7 +52,7 @@ namespace IoTPi.ViewModels
                 savetimer.Tick += Savetimer_Tick;
             }
 
-            savetimer.Interval = TimeSpan.FromSeconds(minutes * 60);
+            savetimer.Interval = TimeSpan.FromSeconds(20);
             savetimer.Start();
         }
 
@@ -66,6 +66,7 @@ namespace IoTPi.ViewModels
 
             foreach (var data in processeddata.SensorsCollection.Values)
             {
+                data.Id = 0; //This is the workaround for keyless objects until [Keyless] works in E.F. Core
                 DataService.InsertData(data);
             }
 
