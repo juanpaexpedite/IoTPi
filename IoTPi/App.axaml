@@ -5,6 +5,11 @@
              x:Class="IoTPi.App">
 
     <Application.Resources>
+      <Color x:Key="ThemeAccentColor">#FF119EFF</Color>
+      <Color x:Key="ThemeAccentColor2">#FF119EFF</Color>
+      <Color x:Key="ThemeAccentColor3">#66119EFF</Color>
+      <Color x:Key="ThemeAccentColor4">#33119EFF</Color>
+
       <SolidColorBrush x:Key="LCDPanelBrush" Color="#d5dac3" />
       <SolidColorBrush x:Key="LCDForegroundBrush" Color="#000000"/>
       <SolidColorBrush x:Key="ThemeAccentBrush0" Color="#0b6284"/>

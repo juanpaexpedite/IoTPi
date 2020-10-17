@@ -13,6 +13,7 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -131,6 +132,9 @@ namespace IoTPi.Components
 
         #endregion
 
+
+        int times = 10;
+        int time = 0;
         public void Update(double value, string unit)
         {
             if (series.Points.Count > 10)
@@ -145,6 +149,13 @@ namespace IoTPi.Components
             Dispatcher.UIThread.InvokeAsync(() =>
             {
                 CurrentValueLabel.Text = $"{value.ToString("00.00", CultureInfo.InvariantCulture)} {unit}";
+
+                if (++time > times)
+                {
+                    plotview.Model.Axes[1].Minimum = series.Points.Min(p => p.Y) - 5;
+                    plotview.Model.Axes[1].Maximum = series.Points.Max(p => p.Y) + 5;
+                    time = 0;
+                }
 
                 plotview.Model.InvalidatePlot(true);
             });
