@@ -49,7 +49,7 @@ namespace IoTPi.Components
 
         private void Sensorinstance_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == "Value")
+            if(e.PropertyName == "Value" ||e.PropertyName == "TimeStamp")
             {
                 Update(sensorinstance.Value, sensorinstance.Units);
             }
@@ -77,6 +77,7 @@ namespace IoTPi.Components
             series.Color = OxyColors.DodgerBlue;
             series.InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline;
             series.Fill = OxyColor.FromArgb(255, 240, 245, 255);
+            series.Color2 = OxyColors.Red;
 
             plotmodel.Series.Add(series);
             plotview.Model = plotmodel;

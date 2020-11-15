@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="SensorTemplates\RandomDataSensorTemplate.ino" />
+    <None Include="SensorTemplates\BatterySensorTemplate.ino" />
     <None Include="SensorTemplates\TemperatureSensorTemplate.ino" />
   </ItemGroup>
 </Project>

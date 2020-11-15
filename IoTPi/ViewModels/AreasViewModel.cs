@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Avalonia.Threading;
+using System.Threading.Tasks;
 
 namespace IoTPi.ViewModels
 {
@@ -20,14 +21,23 @@ namespace IoTPi.ViewModels
 
         public AvaloniaList<AreaDescriptor> Collection { get; } = new AvaloniaList<AreaDescriptor>();
 
-        public AreaDescriptor CheckArea(int id, string name)
+        bool adding = false;
+
+        public async Task<AreaDescriptor> CheckArea(int id, string name)
         {
+            while(adding)
+            {
+                await Task.Delay(1000);
+            }
+
             if(!Collection.Any(a => a.Id == id))
             {
                 var area = new AreaDescriptor() { Id = id, Name = name };
-                Dispatcher.UIThread.InvokeAsync(() =>
+                adding = true;
+                await Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     Collection.Add(area);
+                    adding = false;
                 });
                 return area;
             }

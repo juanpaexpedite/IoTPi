@@ -54,31 +54,31 @@ namespace IoTPi.Components
             set { SetValue(AreaNameProperty, value); }
         }
 
-        private Dictionary<int, SensorModule> sensormodules = new Dictionary<int, SensorModule>();
+      //  private Dictionary<int, SensorModule> sensormodules = new Dictionary<int, SensorModule>();
 
-        public void UpdateSensor(int sensorid, string sensorname, double value, string units)
-        {
-            if(!sensormodules.ContainsKey(sensorid))
-            {
-                AddSensor(sensorid, sensorname, value,units);
-            }
-            else
-            {
-                sensormodules[sensorid].Update(value, units);
-            }
-        }
+        //public void UpdateSensor(string measure, int sensorid, string sensorname, double value, string units)
+        //{
+        //    if(!sensormodules.ContainsKey(sensorid))
+        //    {
+        //        AddSensor(sensorid, sensorname, value,units);
+        //    }
+        //    else
+        //    {
+        //        sensormodules[sensorid].Update(value, units);
+        //    }
+        //}
 
-        private List<SensorModule> modules = new List<SensorModule>();
-        private void AddSensor(int sensorid, string sensorname, double value, string units)
-        {
-            SensorModule module = new SensorModule();
-            module.AreaId = AreaId;
-            module.AreaName = AreaName;
-            module.SensorId = sensorid;
-            module.SensorName = sensorname;
-            module.Update(value, units);
+      //  private List<SensorModule> modules = new List<SensorModule>();
+        //private void AddSensor(string measurement, int sensorid, string sensorname, double value, string units)
+        //{
+        //    SensorModule module = new SensorModule();
+        //    module.AreaId = AreaId;
+        //    module.AreaName = AreaName;
+        //    module.SensorId = sensorid;
+        //    module.SensorName = sensorname;
+        //    module.Update(value, units);
 
-            sensormodules.Add(sensorid, module);
-        }
+        //    sensormodules.Add(sensorid, module);
+        //}
     }
 }

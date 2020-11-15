@@ -37,11 +37,11 @@ namespace IoTPi.ViewModels
             }
             else
             {
-                StartDummyData();
+                StartReceivingData();
             }
         }
 
-        private void StartDummyData()
+        private void StartReceivingData()
         {
             Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -55,13 +55,15 @@ namespace IoTPi.ViewModels
         
         private void Timer_Tick(object sender, EventArgs e)
         {
-            //Data has 6 parts: Measure,AreaId,Id,Name,Value,Units
+            //Data has 7 parts: Measure;AreaId;Id;AreaName;Name;Value;Units
             //var id = rnd.Next(0, 6);
-            //Processed.ReceiveData($"Temperature;0;{id};Window 0;{rnd.Next(25, 30)};C");
-            //Processed.ReceiveData($"Battery;0;0;Main;{rnd.Next(25, 30)};C", 
-            //    new byte[] { 
-            //    0, 10, 64, 88, 0, 0, 88, 8, 0, 88, 0, 0, 2, 143, 1, 2, 
-            //    146, 4, 1, 43, 4, 1, 47, 1, 1, 4, 2, 1, 4, 3, 1, 4, 7, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 2, 2, 5, 3, 1, 7, 5, 2, 2, 8, 2, 2, 2, 8, 2, 1, 6, 8, 4, 0 });
+            //Processed.ReceiveData($"Temperature;0;{id};Window 0;Left;{rnd.Next(25, 30)};C");
+
+            //Compound data example
+            Processed.ReceiveData($"Battery;0;0;Main;Battery;{rnd.Next(25, 30)};C",
+                new byte[] {
+                0, 10, 64, 88, 0, 0, 88, 8, 0, 88, 0, 0, 2, 143, 1, 2,
+                146, 4, 1, 43, 4, 1, 47, 1, 1, 4, 2, 1, 4, 3, 1, 4, 7, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 2, 2, 5, 3, 1, 7, 5, 2, 2, 8, 2, 2, 2, 8, 2, 1, 6, 8, 4, 0 });
 
             Processed.ReceiveDataSerialPort();
 

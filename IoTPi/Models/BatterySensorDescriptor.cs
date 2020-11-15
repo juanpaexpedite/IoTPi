@@ -8,11 +8,56 @@ using static IoTPi.Managers.BytesManager;
 namespace IoTPi.Models
 {
     [Table("Battery")]
-    public class BatterySensorDescriptor : SensorDescriptor
+    public class BatterySensorDescriptor : SensorDescriptor, ICompoundSensor
     {
         public BatterySensorDescriptor() { }
 
-        public BatterySensorDescriptor(string[] data) : base(data) { }
+        public BatterySensorDescriptor(string[] data) : base(data) { CreateChildrenSensors(); }
+
+
+        //TESTING Nesting sensors
+
+        #region Compound Sensor
+
+        [NotMapped]
+        public List<SensorDescriptor> ChildrenSensors { get; } = new List<SensorDescriptor>(); 
+
+        private void CreateChildrenSensors()
+        {
+            var TotalVoltageSensor = new SensorDescriptor()
+            {
+                Measurement = "Voltage",
+                SensorName = "Total Voltage",
+                SensorId = 0,
+                Units = "V",
+            };
+
+            ChildrenSensors.Add(TotalVoltageSensor);
+
+            var CellVoltageMinSensor = new SensorDescriptor()
+            {
+                Measurement = "Voltage",
+                SensorName = "Cell Min Voltage",
+                SensorId = 1,
+                Units = "V",
+            };
+
+            ChildrenSensors.Add(CellVoltageMinSensor);
+
+            var CellVoltageMaxSensor = new SensorDescriptor()
+            {
+                Measurement = "Voltage",
+                SensorName = "Cell Max Voltage",
+                SensorId = 2,
+                Units = "V",
+            };
+
+            ChildrenSensors.Add(CellVoltageMaxSensor);
+
+        }
+        #endregion
+
+
 
         byte[] data = null;
         public override void SetPackage(byte[] package)
@@ -43,6 +88,10 @@ namespace IoTPi.Models
         {
             var bytes = ParseThreeBytes(data[0], data[1], data[2]);
             TotalVoltage = Math.Round(bytes * 0.005, 3);
+
+            ChildrenSensors[0].Value = TotalVoltage;
+            ChildrenSensors[0].ValueLabel = $"{TotalVoltage} V";
+            ChildrenSensors[0].TimeStamp = DateTime.Now;
         }
         #endregion
 
@@ -92,6 +141,10 @@ namespace IoTPi.Models
         {
             var bytes = ParseTwoBytes(data[12], data[13]);
             VoltageMin = Math.Round(bytes * 0.005, 3);
+
+            ChildrenSensors[1].Value = VoltageMin;
+            ChildrenSensors[1].ValueLabel = $"{VoltageMin} V";
+            ChildrenSensors[1].TimeStamp = DateTime.Now;
         }
         #endregion
 
@@ -114,6 +167,10 @@ namespace IoTPi.Models
         {
             var bytes = ParseTwoBytes(data[15], data[16]);
             VoltageMax = Math.Round(bytes * 0.005, 3);
+
+            ChildrenSensors[2].Value = VoltageMax;
+            ChildrenSensors[2].ValueLabel = $"{VoltageMax} V";
+            ChildrenSensors[2].TimeStamp = DateTime.Now;
         }
         #endregion
 

@@ -64,11 +64,14 @@ namespace IoTPi.ViewModels
 
             SavingData = true;
 
+            //TESTING COMPOUND SENSORS THIS HAS TO GO BACK
+            /*
             foreach (var data in processeddata.SensorsCollection.Values)
             {
                 data.Id = 0; //This is the workaround for keyless objects until [Keyless] works in E.F. Core
                 DataService.InsertData(data);
             }
+            */
 
             SavingData = false;
         }

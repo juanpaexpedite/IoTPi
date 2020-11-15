@@ -6,11 +6,11 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="IoTPi.Components.SensorsView">
 
-  <Grid x:Name="SensorsGrid" Margin="12">
-    <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto">
-      <ItemsRepeater Items="{Binding Sensors}">
+ 
+    <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+      <ItemsRepeater Items="{Binding Sensors}" >
         <ItemsRepeater.Layout>
-          <UniformGridLayout Orientation="Horizontal"/>
+          <UniformGridLayout Orientation="Horizontal" MaximumRowsOrColumns="3"/>
         </ItemsRepeater.Layout>
         <ItemsRepeater.ItemTemplate>
           <DataTemplate>
@@ -19,6 +19,6 @@
         </ItemsRepeater.ItemTemplate>
       </ItemsRepeater>
     </ScrollViewer>
-  </Grid>
+ 
   
 </UserControl>
