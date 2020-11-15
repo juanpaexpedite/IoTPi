@@ -60,10 +60,13 @@ namespace IoTPi.ViewModels
             //Processed.ReceiveData($"Temperature;0;{id};Window 0;Left;{rnd.Next(25, 30)};C");
 
             //Compound data example
+            //Real Package
             Processed.ReceiveData($"Battery;0;0;Main;Battery;{rnd.Next(25, 30)};C",
                 new byte[] {
                 0, 10, 64, 88, 0, 0, 88, 8, 0, 88, 0, 0, 2, 143, 1, 2,
-                146, 4, 1, 43, 4, 1, 47, 1, 1, 4, 2, 1, 4, 3, 1, 4, 7, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 2, 2, 5, 3, 1, 7, 5, 2, 2, 8, 2, 2, 2, 8, 2, 1, 6, 8, 4, 0 });
+                146, 4, 1, 41, 4, 1, 44, 3, 3, 4, 2, 143, 1, 44, 3, 
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                19,8,253,175,2,28,2,228,2,168,31});
 
             Processed.ReceiveDataSerialPort();
 

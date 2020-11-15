@@ -93,9 +93,9 @@ namespace IoTPi.Components
                 axis.TextColor = OxyColors.DarkGray;
             }
 
-            plotview.Model.Axes[1].MajorStep = 5;
-            plotview.Model.Axes[1].Minimum = 10;
-            plotview.Model.Axes[1].Maximum = 30;
+            //plotview.Model.Axes[1].MajorStep = 5;
+            //plotview.Model.Axes[1].Minimum = 10;
+            //plotview.Model.Axes[1].Maximum = 30;
 
         }
 
@@ -153,8 +153,8 @@ namespace IoTPi.Components
 
                 if (++time > times)
                 {
-                    plotview.Model.Axes[1].Minimum = series.Points.Min(p => p.Y) - 5;
-                    plotview.Model.Axes[1].Maximum = series.Points.Max(p => p.Y) + 5;
+                    //plotview.Model.Axes[1].Minimum = series.Points.Min(p => p.Y) - 5;
+                    //plotview.Model.Axes[1].Maximum = series.Points.Max(p => p.Y) + 5;
                     time = 0;
                 }
 
