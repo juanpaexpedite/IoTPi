@@ -25,7 +25,7 @@ namespace IoTPi.ViewModels
         /// </summary>
         /// <param name="rawdata"></param>
 
-        public void ReceiveData(string rawdata, byte[] package = null)
+        public async void ReceiveData(string rawdata, byte[] package = null)
         {
             if (DatabaseViewModel.Instance.SavingData)
             {
@@ -34,11 +34,13 @@ namespace IoTPi.ViewModels
 
             var data = rawdata.Split(';');
 
-            var sensor = ProcessedDataManager.SetData(SensorsCollection, data, package);
+            var sensors = ProcessedDataManager.SetData(SensorsCollection, data, package);
 
-            var area = AreasViewModel.Instance.CheckArea(sensor.AreaId, sensor.AreaName);
-
-            area.CheckSensor(sensor);
+            foreach (var sensor in sensors)
+            {
+                var area = await AreasViewModel.Instance.CheckArea(sensor.AreaId, sensor.AreaName);
+                area.CheckSensor(sensor);
+            }
 
             //Update SensorModule
 

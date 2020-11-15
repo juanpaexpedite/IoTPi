@@ -28,21 +28,8 @@
 
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="1*"/>
-      <ColumnDefinition Width="320"/>
+      <ColumnDefinition Width="128"/>
     </Grid.ColumnDefinitions>
-
-    <!--<Grid >
-      <Grid.RowDefinitions>
-        <RowDefinition Height="128"/>
-        <RowDefinition Height="128"/>
-      </Grid.RowDefinitions>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="256"/>
-        <ColumnDefinition Width="256"/>
-      </Grid.ColumnDefinitions>
-
-      <cmp:DataBox   Label="Temperature Area 0" Data="{Binding Processed.TemperatureArea0}"/>
-    </Grid>-->
 
     <Grid Grid.Column="1">
       <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
@@ -51,27 +38,29 @@
     </Grid>
 
 
-    <TabControl Classes="sidebar" Name="Sidebar" Background="{DynamicResource ThemeAccentBrush}">
+     
+        <TabControl Classes="sidebar" Name="Sidebar" Background="{DynamicResource ThemeAccentBrush}">
 
-      <TabControl.Styles>
-        <Style Selector="ContentPresenter">
-          <Setter Property="CornerRadius" Value="8"/>
-        </Style>
-      </TabControl.Styles>
-      
+          <TabControl.Styles>
+            <Style Selector="ContentPresenter">
+              <Setter Property="CornerRadius" Value="8"/>
+            </Style>
+          </TabControl.Styles>
 
-      <TabItem Header="Home">
-        <cmp:AreasView/>
-      </TabItem>
-      <TabItem Header="Sensors">
-        
-      </TabItem>
-      <TabItem Header="Actuators">
-        
-      </TabItem>
-    </TabControl>
 
-  </Grid>
+          <TabItem Header="Home">
+            <cmp:AreasView/>
+          </TabItem>
+          <TabItem Header="Sensors">
+
+          </TabItem>
+          <TabItem Header="Actuators">
+
+          </TabItem>
+        </TabControl>
+      </Grid>
+
+  
 
     <Border IsVisible="{Binding Configuration.IsVisible}" Background="#40000000" Grid.ColumnSpan="12" Grid.RowSpan="12">
       <cmp:ConfigurationBox />

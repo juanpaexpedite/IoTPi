@@ -8,11 +8,89 @@ using static IoTPi.Managers.BytesManager;
 namespace IoTPi.Models
 {
     [Table("Battery")]
-    public class BatterySensorDescriptor : SensorDescriptor
+    public class BatterySensorDescriptor : SensorDescriptor, ICompoundSensor
     {
         public BatterySensorDescriptor() { }
 
-        public BatterySensorDescriptor(string[] data) : base(data) { }
+        public BatterySensorDescriptor(string[] data) : base(data) { CreateChildrenSensors(); }
+
+
+        //TESTING Nesting sensors
+
+        #region Compound Sensor
+
+        [NotMapped]
+        public List<SensorDescriptor> ChildrenSensors { get; } = new List<SensorDescriptor>(); 
+
+        private void CreateChildrenSensors()
+        {
+            var TotalVoltageSensor = new SensorDescriptor()
+            {
+                Measurement = "Voltage",
+                SensorName = "Total Voltage",
+                SensorId = 0,
+                Units = "V"
+            };
+
+            ChildrenSensors.Add(TotalVoltageSensor);
+
+            var CellVoltageMinSensor = new SensorDescriptor()
+            {
+                Measurement = "Voltage",
+                SensorName = "Cell Min Voltage",
+                SensorId = 1,
+                Units = "V"
+            };
+
+            ChildrenSensors.Add(CellVoltageMinSensor);
+
+            var CellVoltageMaxSensor = new SensorDescriptor()
+            {
+                Measurement = "Voltage",
+                SensorName = "Cell Max Voltage",
+                SensorId = 2,
+                Units = "V"
+            };
+
+            ChildrenSensors.Add(CellVoltageMaxSensor);
+
+            var TemperatureMinSensor = new SensorDescriptor()
+            {
+                Measurement = "Temperature",
+                SensorName = "Temp. Min",
+                SensorId = 3,
+                Units = "C"
+            };
+
+            ChildrenSensors.Add(TemperatureMinSensor);
+
+            var TemperatureMaxSensor = new SensorDescriptor()
+            {
+                Measurement = "Temperature",
+                SensorName = "Temp. Max",
+                SensorId = 4,
+                Units = "C"
+            };
+
+            ChildrenSensors.Add(TemperatureMaxSensor);
+
+
+            var EnergyConsumedSensor = new SensorDescriptor()
+            {
+                Measurement = "Energy",
+                SensorName = "Energy Consumed",
+                SensorId = 5,
+                Units = "kWh"
+            };
+
+            ChildrenSensors.Add(EnergyConsumedSensor);
+
+
+
+        }
+        #endregion
+
+
 
         byte[] data = null;
         public override void SetPackage(byte[] package)
@@ -33,6 +111,8 @@ namespace IoTPi.Models
             ProcessCellTMin();
             ProcessTMax();
             ProcessCellTMax();
+
+            ProcessEnergyConsumed();
         }
 
         #region Total Voltage //0,1,2
@@ -43,6 +123,10 @@ namespace IoTPi.Models
         {
             var bytes = ParseThreeBytes(data[0], data[1], data[2]);
             TotalVoltage = Math.Round(bytes * 0.005, 3);
+
+            ChildrenSensors[0].Value = TotalVoltage;
+            ChildrenSensors[0].ValueLabel = $"{TotalVoltage} V";
+            ChildrenSensors[0].TimeStamp = DateTime.Now;
         }
         #endregion
 
@@ -92,6 +176,10 @@ namespace IoTPi.Models
         {
             var bytes = ParseTwoBytes(data[12], data[13]);
             VoltageMin = Math.Round(bytes * 0.005, 3);
+
+            ChildrenSensors[1].Value = VoltageMin;
+            ChildrenSensors[1].ValueLabel = $"{VoltageMin} V";
+            ChildrenSensors[1].TimeStamp = DateTime.Now;
         }
         #endregion
 
@@ -114,6 +202,10 @@ namespace IoTPi.Models
         {
             var bytes = ParseTwoBytes(data[15], data[16]);
             VoltageMax = Math.Round(bytes * 0.005, 3);
+
+            ChildrenSensors[2].Value = VoltageMax;
+            ChildrenSensors[2].ValueLabel = $"{VoltageMax} V";
+            ChildrenSensors[2].TimeStamp = DateTime.Now;
         }
         #endregion
 
@@ -136,6 +228,10 @@ namespace IoTPi.Models
         {
             var bytes = ParseTwoBytes(data[18], data[19]);
             TMin = Math.Round(bytes - 276.0, 3);
+
+            ChildrenSensors[3].Value = TMin;
+            ChildrenSensors[3].ValueLabel = $"{TMin} C";
+            ChildrenSensors[3].TimeStamp = DateTime.Now;
         }
         #endregion
 
@@ -158,6 +254,10 @@ namespace IoTPi.Models
         {
             var bytes = ParseTwoBytes(data[21], data[22]);
             TMax = Math.Round(bytes - 276.0, 3);
+
+            ChildrenSensors[4].Value = TMax;
+            ChildrenSensors[4].ValueLabel = $"{TMax} C";
+            ChildrenSensors[4].TimeStamp = DateTime.Now;
         }
         #endregion
 
@@ -169,6 +269,22 @@ namespace IoTPi.Models
         private void ProcessCellTMax()
         {
             CellTMax = ParseOneByte(data[23]);
+        }
+        #endregion
+
+        #region ProcessEneryConsumed //37,38,39
+        public double EnergyConsumed { get; set; }
+
+        public string EnergyConsumedLabel { get => $"Energy Consumed {EnergyConsumed} kWh"; }
+
+        private void ProcessEnergyConsumed()
+        {
+            var bytes = ParseThreeBytes(data[37], data[38], data[39]);
+            EnergyConsumed = Math.Round(bytes*0.005, 3);
+
+            ChildrenSensors[5].Value = EnergyConsumed;
+            ChildrenSensors[5].ValueLabel = $"{EnergyConsumed} kWh";
+            ChildrenSensors[5].TimeStamp = DateTime.Now;
         }
         #endregion
 
